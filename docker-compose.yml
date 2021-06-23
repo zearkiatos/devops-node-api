@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devops-node-api
+    volumes: 
+      - ".:/app"
+    ports:
+      - "0.0.0.0:3001:3000"
+    tty: true
