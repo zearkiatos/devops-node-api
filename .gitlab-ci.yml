@@ -1,0 +1,21 @@
+image: node:15-alpine
+stages:
+  - install
+  - test
+
+install-dependencies:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - /
+
+test-app:
+  stage: test
+  dependencies:
+    - install-dependencies
+  script:
+    - echo "Testing the app 🧪"
+    - npm run test
