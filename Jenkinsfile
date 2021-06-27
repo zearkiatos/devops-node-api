@@ -15,15 +15,25 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          dir("devops-node-api") {
-            dockerImage = docker.build "${env.ARTIFACT_ID}"
-          }
+          dockerImage = docker.build "${env.ARTIFACT_ID}"
         }
       }
     }
     stage("Run tests") {
       steps {
         sh "docker run ${dockerImage.id} npm run test"
+      }
+    }
+    stage("Publish") {
+      when {
+        branch "master"
+      }
+      steps {
+        script {
+            docker.withRegistry("", "DockerHubCredentials") {
+            dockerImage.push()
+          }
+        }
       }
     }
     stage("Install dependencies") {
