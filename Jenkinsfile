@@ -26,7 +26,7 @@ pipeline {
     }
     stage("Publish") {
       when {
-        branch "master"
+        branch "develop"
       }
       steps {
         script {
