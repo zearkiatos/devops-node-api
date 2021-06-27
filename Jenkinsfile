@@ -31,12 +31,6 @@ pipeline {
         sh 'npm i'
       }
     }
-
-    stage("Run tests") {
-      steps {
-        sh 'npm t'
-      }
-    }
     stage("RUN REMOTE") {
       steps {
           build wait: false, job: 'parameterized', parameters: [string(name: 'ROOT_ID', value: '$BUILD_ID')]
