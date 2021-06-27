@@ -24,14 +24,14 @@ pipeline {
         sh "docker run ${dockerImage.id} npm run test"
       }
     }
-    stage("Publish") {
+    stage('Publish') {
       when {
-        branch "develop"
+        branch 'develop'
       }
       steps {
         script {
             docker.withRegistry("", "DockerHubCredentials") {
-            dockerImage.push()
+              dockerImage.push()
           }
         }
       }
