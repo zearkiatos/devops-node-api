@@ -19,7 +19,7 @@ pipeline {
         }
       }
     }
-    stage("Run tests") {
+    stage('Run tests') {
       steps {
         sh "docker run ${dockerImage.id} npm run test"
       }
@@ -30,26 +30,26 @@ pipeline {
       }
       steps {
         script {
-            docker.withRegistry("", "DockerHubCredentials") {
-              dockerImage.push()
+          docker.withRegistry("", "DockerHubCredentials") {
+            dockerImage.push()
           }
         }
       }
     }
-    stage("Schedule Staging Deployment") {
+    stage('Schedule Staging Deployment') {
       when {
-        branch "develop"
+        branch 'develop'
       }
       steps {
-        build job: "deploy-webapp-staging", parameters: [string(name: "ARTIFACT_ID", value: "${env.ARTIFACT_ID}")], wait: false
+        build job: "deploy-webapp-staging", parameters: [string(name: 'ARTIFACT_ID', value: "${env.ARTIFACT_ID}")], wait: false
       }
     }
-    stage("Install dependencies") {
+    stage('Install dependencies') {
       steps {
         sh 'npm i'
       }
     }
-    stage("RUN REMOTE") {
+    stage('RUN REMOTE') {
       steps {
           build wait: false, job: 'parameterized', parameters: [string(name: 'ROOT_ID', value: '$BUILD_ID')]
       }
